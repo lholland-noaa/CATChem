@@ -104,24 +104,18 @@ CONTAINS
          ! Activate Process
          !------------------
          SUVolcanicEmissionsState%Activate = .true.
-         allocate(SUVolcanicEmissionsState%drydep_frequency(ChemState%nSpeciesSUVolcanicEmissions), STAT=RC)
+         allocate(SUVolcanicEmissionsState%drydep_frequency(ChemState%nSpeciesSUVolcanic), STAT=RC)
          IF ( RC /= CC_SUCCESS ) THEN
-            ErrMsg = 'Could not Allocate SUVolcanicEmissionsState%drydep_frequency(ChemState%nSpeciesSUVolcanicEmissions)'
+            ErrMsg = 'Could not Allocate SUVolcanicEmissionsState%drydep_frequency(ChemState%nSpeciesSUVolcanic)'
             CALL CC_Error( ErrMsg, RC, ThisLoc )
          ENDIF
-         SUVolcanicEmissionsState%drydep_frequency(1:ChemState%nSpeciesSUVolcanicEmissions)=ZERO
-
-         allocate(SUVolcanicEmissionsState%drydep_vel(ChemState%nSpeciesSUVolcanicEmissions), STAT=RC)
-         IF ( RC /= CC_SUCCESS ) THEN
-            ErrMsg = 'Could not Allocate SUVolcanicEmissionsState%drydep_vel(ChemState%nSpeciesSUVolcanicEmissions)'
-            CALL CC_Error( ErrMsg, RC, ThisLoc )
-         ENDIF
-         SUVolcanicEmissionsState%drydep_vel(1:ChemState%nSpeciesSUVolcanicEmissions)=ZERO
+         SUVolcanicEmissionsState%drydep_frequency(1:ChemState%nSpeciesSUVolcanic)=ZERO
 
          ! Set scheme option
          !------------------
          ! For now, the only option is SchemeOpt = 1
          SUVolcanicEmissionsState%SchemeOpt = 1
+
       else
          SUVolcanicEmissionsState%Activate = .false.
       end if
@@ -129,7 +123,7 @@ CONTAINS
    end subroutine CCPR_SUVolcanicEmissions_Init
 
    !>
-   !! \brief Run the DryDep
+   !! \brief Run the SUVolcanicEmisions
    !!
    !! \param [IN] MetState - The MetState object
    !! \param [INOUT] DiagState - The DiagState object
@@ -179,10 +173,12 @@ CONTAINS
          if (SUVolcanicEmissionsState%SchemeOpt == 1) then
             ! Run the DryDep Scheme - Only Applicable to AEROSOL species
             !-------------------------
-            if (ChemState%nSpeciesSUVolcanicEmissions > 0) then
+
+            ! Below is not needed if only SO2 is reported
+            if (ChemState%nSpeciesSUVolcanic > 0) then
 
                ! loop through aerosol species
-               do i = 1, ChemState%nSpeciesVolcanicEmissions
+               do i = 1, ChemState%nSpeciesSUVolcanic
 
                   call CCPr_Scheme_GOCART_SUVolcanicEmissions( MetState%NLEVS,   &
                      MetState%ZMID,    &
@@ -190,28 +186,9 @@ CONTAINS
                      g0,               &
                      RC)
 
+               end do ! do i = 1, ChemState%nSpeciesSUVolcanic
 
-                  if (RC /= 0) then
-                     errMsg = 'Error in GOCART SUVolcanicEmissions'
-                     CALL CC_Error( errMsg, RC, thisLoc )
-                  endif  !if (RC /= CC_SUCCESS)
-
-                  ! Fill Diagnostic Variables
-                  !--------------------------
-!                  SUVolcanicEmissionsState%drydep_frequency(ChemState%DryDepIndex(i)) = drydepf(1,1)
-!                  SUVolcanicEmissionsState%drydep_vel(ChemState%DryDepIndex(i)) = MetState%ZMID(1) * drydepf(1,1)
-!                  DiagState%drydep_frequency(i)= drydepf(1,1)
-!                  DiagState%drydep_vel(i) = MetState%ZMID(1) * drydepf(1,1)
-
-                  ! apply drydep velocities/freq to chem species
-!                  dqa = 0.
-!                  SpecConc = ChemState%chemSpecies(ChemState%SUVolcanicEmissionsIndex(i))%conc(1)
-!                  dqa = MAX(0.0_fp, SpecConc * (1.-exp(-1*drydepf(1,1) * MetState%TSTEP)))
-!                  ChemState%chemSpecies(ChemState%SUVolcanicEmissionsIndex(i))%conc(1) = SpecConc - dqa
-
-               end do ! do i = 1, ChemState%nSpeciesVolcanicEmissions
-
-            endif  ! if (ChemState%nSpeciesVolcanicEmissions > 0)
+            endif  ! if (ChemState%nSpeciesSUVolcanic > 0)
 
          endif  ! if (SUVolcanicEmissionsState%SchemeOpt == 1)
 
@@ -251,6 +228,7 @@ CONTAINS
       thisLoc = ' -> at CCPr_SUVolcanicEmissions_Finalize &
       &(in process/SUVolcanicEmissions/ccpr_SUVolcanicEmissions_mod.F90)'
 
+! Next two will not need to be deallocated, leaving in as placeholders
       DEALLOCATE( SUVolcanicEmissionsState%drydep_frequency, STAT=RC )
       IF ( RC /= CC_SUCCESS ) THEN
          ErrMsg = 'Could not Deallocate SUVolcanicEmissionsState%drydep_frequency'

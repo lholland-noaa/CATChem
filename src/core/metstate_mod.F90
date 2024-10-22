@@ -45,6 +45,8 @@ MODULE MetState_Mod
       ! TIMESTEP
       !---------
       REAL(fp)              :: TSTEP             !< Time step [s]
+      INTEGER               :: YMD              ! Year, month, day
+      INTEGER               :: HMS              ! Hour, minute, second
 
       ! Logicals
       !---------

@@ -173,6 +173,15 @@ CONTAINS
          RETURN
       ENDIF
 
+      call Config_Process_SUVolcanicEmissions(ConfigInput, Config, RC)
+      IF ( RC /= CC_SUCCESS ) THEN
+         errMsg = 'Error in "Config_Process_SUVolcanicEmissions"!'
+         CALL CC_Error( errMsg, RC, thisLoc  )
+         CALL QFYAML_CleanUp( ConfigInput         )
+         CALL QFYAML_CleanUp( ConfigAnchored )
+         RETURN
+      ENDIF
+
 
       !========================================================================
       ! Config ChemState
@@ -569,6 +578,8 @@ CONTAINS
       write(*,*) '|  number of tracers:  ', ChemState%nSpeciesTracer
       write(*,*) '|  number of dust:     ', ChemState%nSpeciesDust
       write(*,*) '|  number of seasalt:  ', ChemState%nSpeciesSeaSalt
+      write(*,*) '|  number of volcanic:  ', ChemState%nSpeciesSUVolcanic
+
       write(*,*) '========================================================='
 
    END SUBROUTINE Config_Chem_State
@@ -1372,5 +1383,79 @@ CONTAINS
 
    END SUBROUTINE Config_Process_DryDep
 
+
+   !> \brief Process SUVolcanicEmissions configuration
+   !!
+   !! This function processes the SUVolcanic configuration and performs the necessary actions based on the configuration.
+   !!
+   !! \param[in] ConfigInput The YAML configuration object
+   !! \param[inout] Config The configuration object
+   !! \param[out] RC The return code
+   !!
+   !! \ingroup core_modules
+   !!!>
+   SUBROUTINE Config_Process_SUVolcanicEmissions( ConfigInput, Config, RC )
+      USE CharPak_Mod,    ONLY : StrSplit
+      USE Error_Mod
+      USE Config_Opt_Mod,  ONLY : ConfigType
+
+      TYPE(QFYAML_t),      INTENT(INOUT) :: ConfigInput      ! YAML Config object
+      TYPE(ConfigType),     INTENT(INOUT) :: Config   ! Input options
+
+      !
+      ! !OUTPUT PARAMETERS:
+      !
+      INTEGER,        INTENT(OUT)   :: RC          ! Success or failure
+
+      ! !LOCAL VARIABLES:
+      !
+      ! Scalars
+      LOGICAL                      :: v_bool
+      INTEGER                      :: v_int
+
+      ! Strings
+      CHARACTER(LEN=255)           :: thisLoc
+      CHARACTER(LEN=512)           :: errMsg
+      CHARACTER(LEN=QFYAML_StrLen) :: key
+
+      !========================================================================
+      ! Config_Process_SUVolcanicEmissions begins here!
+      !========================================================================
+
+      ! Initialize
+      RC      = CC_SUCCESS
+      thisLoc = ' -> at Config_Process_SUVolcanicEmissions (in CATChem/src/core/config_mod.F90)'
+      errMsg = ''
+
+      ! TODO #105 Fix reading of config file
+      key   = "process%SUVolcanicEmissions%activate"
+      v_bool = MISSING_BOOL
+      CALL QFYAML_Add_Get( ConfigInput, TRIM( key ), v_bool, "", RC )
+      IF ( RC /= CC_SUCCESS ) THEN
+         errMsg = 'Error parsing ' // TRIM( key ) // '!'
+         CALL CC_Error( errMsg, RC, thisLoc )
+         RETURN
+      ENDIF
+      Config%drydep_activate = v_bool
+
+
+      key   = "process%SUVolcanicEmissions%scheme_opt"
+      v_int = MISSING_INT
+      CALL QFYAML_Add_Get( ConfigInput, TRIM( key ), v_int, "", RC )
+      IF ( RC /= CC_SUCCESS ) THEN
+         errMsg = TRIM( key ) // 'Not Found, Setting Default to 1'
+         v_int = 1 ! default is one
+         RETURN
+      ENDIF
+      Config%dSUVolcanicEmissions_scheme = v_int
+
+
+      write(*,*) "SUVolcanicEmissions Configuration"
+      write(*,*) '------------------------------------'
+      write(*,*) 'Config%SUVolcanicEmissions_activate = ', Config%SUVolcanicEmissions_activate
+      write(*,*) 'Config%SUVolcanicEmissions_scheme = ', Config%SUVolcanicEmissions_scheme
+      write(*,*) '------------------------------------'
+
+   END SUBROUTINE Config_Process_SUVolcanicEmissions
 
 END MODULE config_mod
