@@ -47,7 +47,6 @@ var structmetstate__mod_1_1metstatetype =
     [ "introposphere", "structmetstate__mod_1_1metstatetype.html#a6917102720423838f46e52e9386a0983", null ],
     [ "isice", "structmetstate__mod_1_1metstatetype.html#ad2863f831ace50e2336dd46d28a18f91", null ],
     [ "island", "structmetstate__mod_1_1metstatetype.html#ac128d50ab94f6d3e0b2cf94460ca8a48", null ],
-    [ "islocalnoon", "structmetstate__mod_1_1metstatetype.html#a287fb9ae8cbd1cc414a0661ffe96817d", null ],
     [ "issnow", "structmetstate__mod_1_1metstatetype.html#af51f49c8d2d270f2b333ee5670d41a1e", null ],
     [ "iswater", "structmetstate__mod_1_1metstatetype.html#a2bdaa29816d6d22ecf1967202ee944ea", null ],
     [ "lai", "structmetstate__mod_1_1metstatetype.html#ab47d76ed52948640b1ff56cb79725f97", null ],
@@ -99,7 +98,6 @@ var structmetstate__mod_1_1metstatetype =
     [ "sphu", "structmetstate__mod_1_1metstatetype.html#a675f85e38f9d5dc969797ce9743e854c", null ],
     [ "ssm", "structmetstate__mod_1_1metstatetype.html#a5f29dfcde2d782fee9e06a92ffcefec7", null ],
     [ "sst", "structmetstate__mod_1_1metstatetype.html#a5fe25cd75af1682aead455f17d9b5253", null ],
-    [ "state", "structmetstate__mod_1_1metstatetype.html#a5b26f17322671997a34e05a7bd36cf0f", null ],
     [ "suncos", "structmetstate__mod_1_1metstatetype.html#a6b40de46d6cfa6761d2eb3abfc027464", null ],
     [ "suncosmid", "structmetstate__mod_1_1metstatetype.html#a54fbd451d4bb5639e89ca57f967f8438", null ],
     [ "suncossum", "structmetstate__mod_1_1metstatetype.html#a20bc71e1c94cf1e0bb305e498ecb14e7", null ],
@@ -127,5 +125,6 @@ var structmetstate__mod_1_1metstatetype =
     [ "wilt", "structmetstate__mod_1_1metstatetype.html#aa373bce9e0b43f7bee1c1b51bf64c003", null ],
     [ "z", "structmetstate__mod_1_1metstatetype.html#a3934f0cf36e74813cba6d8018ea4dac7", null ],
     [ "z0", "structmetstate__mod_1_1metstatetype.html#ac3602bb57087d25525f2d20295952ee9", null ],
+    [ "z0h", "structmetstate__mod_1_1metstatetype.html#a077b05ce12f73111c4c6486d7b519794", null ],
     [ "zmid", "structmetstate__mod_1_1metstatetype.html#ac4ed901d35a1baf7b06a4a48dab236c3", null ]
 ];

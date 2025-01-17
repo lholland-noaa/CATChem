@@ -38,13 +38,14 @@ var NAVTREE =
     ] ],
     [ "Development Team", "index.html#autotoc_md9", null ],
     [ "How to Add a New Process", "index.html#autotoc_md10", null ],
-    [ "Modules", "modules.html", "modules" ],
-    [ "Data Types List", "annotated.html", [
+    [ "Topics", "topics.html", "topics" ],
+    [ "Data Types", "annotated.html", [
       [ "Data Types List", "annotated.html", "annotated_dup" ],
-      [ "Data Types", "classes.html", null ],
+      [ "Data Type Index", "classes.html", null ],
       [ "Data Fields", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "All", "functions.html", "functions_dup" ],
+        [ "Functions/Subroutines", "functions_func.html", null ],
+        [ "Variables", "functions_vars.html", "functions_vars" ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -56,8 +57,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"qfyaml__mod_8F90.html#a4ad6165a05819ed17dea700444c86a38",
-"structmetstate__mod_1_1metstatetype.html#ac7de9b54d40e2bcde3d3ccf5ff3a3bc5"
+"structmetstate__mod_1_1metstatetype.html#a1db1cb7fad6a77db8f2950305cb61a51"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
